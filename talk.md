@@ -222,6 +222,8 @@ document.body.appendChild(renderAvatar({fullName: 'Franz Josef'}));
 
 #### Flow
 
+![Re-frame](https://raw.githubusercontent.com/Day8/re-frame/master/images/logo/re-frame_128w.png)
+
 ```text
 View -> dispatch -> Handler -> Subscriber
 |                                        |
@@ -304,6 +306,8 @@ Subscriber
 --
 
 ### Komplexní příklad - přihlašovací formulář
+
+[https://github.com/LukasRychtecky/prague-lambda-cljs-demo](https://github.com/LukasRychtecky/prague-lambda-cljs-demo)
 
 --
 
