@@ -209,6 +209,29 @@ document.body.appendChild(renderAvatar({fullName: 'Franz Josef'}));
 
 --
 
+### Reagent - React life-cycle
+
+```clojure
+(defn avatar
+  [user]
+  (reagent/create-class
+    {:display-name
+     "avatar"
+
+     :component-did-mount
+     (fn []
+       ...)
+
+     :reagent-render
+     (fn [user]
+       [:div
+        ...
+```
+
+* `create-class` vytvoří React třídu s příslušnými metodami
+
+--
+
 ### Re-frame: Kde bude stav aplikace?
 
 * [Re-frame](https://github.com/Day8/re-frame) - "MVC" framework pro UI web. aplikace
@@ -311,8 +334,54 @@ Subscriber
 
 --
 
+###  Srovnání Reagent vs Om
+
+```clojure
+(defn main [{:keys [todos showing editing] :as app} comm]
+  (dom/section #js {:id "main" :style (hidden (empty? todos))}
+    (dom/input
+      #js {:id "toggle-all" :type "checkbox"
+           :onChange #(toggle-all % app)
+           :checked (every? :completed todos)})))
+```
+
+* Zdroj [https://github.com/swannodette/todomvc](https://github.com/swannodette/todomvc)
+* Defnice views - Hiccup vs. funkce
+* Tiny ReactJS wrapper - atributy se předávají s makrem `#js` (camelCase)
+
+--
 
 ###  Srovnání Reagent vs Om
+
+```clojure
+(when-not (string/blank? (.. new-field -value trim))
+        (let [new-todo {:id (guid)
+                        :title (.-value new-field)
+                        :completed false}]
+          (om/transact! app :todos
+            #(conj % new-todo)
+            [:create new-todo]))
+        (set! (.-value new-field) ""))
+```
+
+* Modifikace globálního atomu pomocí `update!`, `set!`, `transact!`
+
+```clojure
+(defn todo-app [{:keys [todos] :as app} owner]
+  (reify
+    om/IWillMount
+    (will-mount [_]
+```
+
+* React life-cycle
+
+--
+
+### Shrnutí
+
+* Reagent - komponenty jsou více clojuristic
+* Re-frame poskytuje architekturu aplikace a odstiňuje od modifikace atomu
+* Hiccup vs. funkce (osobně preferuji Hiccup)
 
 --
 
